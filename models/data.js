@@ -3,8 +3,8 @@ const { Schema, Types } = require('mongoose');
 const dataSchema = new Schema(
   {
     dataId: {
-      type: Schema.Types.UserId,
-      default: () => new Types.UserId(),
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
     },
     dataName: {
       type: String,
@@ -16,7 +16,7 @@ const dataSchema = new Schema(
     score: {
       type: Number,
       required: true,
-      default: () => Math.floor(Math.random() * (100 - 70 + 1) + 70),
+     default: () => Math.floor(Math.random() * (100 - 70 + 1) + 70),
     },
     createdAt: {
       type: Date,

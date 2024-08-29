@@ -22,7 +22,7 @@ const thoughtSchema = new Schema(
     },
     users: [
       {
-        type: Schema.Types.UserId,
+        type: Schema.Types.ObjectId,
         ref: 'user',
       },
     ],
@@ -35,6 +35,6 @@ const thoughtSchema = new Schema(
   }
 );
 
-const Thought = model('course', thoughtSchemaSchema);
+const Thought = model('course', thoughtSchema);
 
-module.exports = Course;
+module.exports = Thought;
