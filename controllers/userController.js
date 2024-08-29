@@ -98,7 +98,7 @@ module.exports = {
   },
 
   // Add an thought to a user
-  async addPersonalData(req, res) {
+  async addData(req, res) {
     console.log('You are adding an personal data');
     console.log(req.body);
 
@@ -121,7 +121,7 @@ module.exports = {
     }
   },
   // Remove personal data from a user
-  async removePersonaldata(req, res) {
+  async removedata(req, res) {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
