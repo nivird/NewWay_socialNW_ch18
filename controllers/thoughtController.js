@@ -4,7 +4,7 @@ module.exports = {
   // Get all courses
   async getThoughts(req, res) {
     try {
-      const thoughts = await Course.find().populate('users');
+      const thoughts = await Thoughts.find().populate('users');
       res.json(thoughts);
     } catch (err) {
       res.status(500).json(err);
@@ -13,7 +13,7 @@ module.exports = {
   // Get a course
   async getSingleThought(req, res) {
     try {
-      const thought = await Course.findOne({ _id: req.params.thoughtId })
+      const thought = await Thoughts.findOne({ _id: req.params.thoughtId })
         .populate('users');
 
       if (!thought) {
@@ -28,7 +28,7 @@ module.exports = {
   // Create a course
   async createThought(req, res) {
     try {
-      const thought = await Course.create(req.body);
+      const thought = await Thoughts.create(req.body);
       res.json(thought);
     } catch (err) {
       console.log(err);
@@ -38,13 +38,13 @@ module.exports = {
   // Delete a course
   async deleteThought(req, res) {
     try {
-      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtIdId });
+      const thought = await Thoughts.findOneAndDelete({ _id: req.params.thoughtId });
 
       if (!thought) {
         res.status(404).json({ message: 'No thought with that ID' });
       }
 
-      await User.deleteMany({ _id: { $in: thought.users } });
+      await Users.deleteMany({ _id: { $in: thought.users } });
       res.json({ message: 'thoughts are  deleted!' });
     } catch (err) {
       res.status(500).json(err);
@@ -53,7 +53,7 @@ module.exports = {
   // Update a course
   async updateThought(req, res) {
     try {
-      const thought = await Course.findOneAndUpdate(
+      const thought = await Thoughts.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $set: req.body },
         { runValidators: true, new: true }

@@ -1,16 +1,16 @@
 const { UserId } = require('mongoose').Types;
-const { User, Thought } = require('../models');
+const { Users, Thought } = require('../models');
 
 // Aggregate function to get the number of users overall
 const headCount = async () => {
-  const numberOfUsers = await Student.aggregate()
+  const numberOfUsers = await Users.aggregate()
     .count('userCount');
   return numberOfUsers;
 }
 
 // Aggregate function for getting the overall reaction using $avg
 const reaction = async (userId) =>
-  User.aggregate([
+  Users.aggregate([
     // only include the given user name by using $match
     { $match: { _id: new UserId(userId) } },
     {
@@ -28,10 +28,10 @@ module.exports = {
   // Get all users
   async getUsers(req, res) {
     try {
-      const users = await User.find();
+      const users = await Users.find();
 
       const userObj = {
-        students,
+        users,
         headCount: await headCount(),
       };
 
@@ -44,7 +44,7 @@ module.exports = {
   // Get a single user
   async getSingleUser(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId })
+      const user = await Users.findOne({ _id: req.params.userId })
         .select('-__v');
 
       if (!user) {
@@ -63,7 +63,7 @@ module.exports = {
   // create a new user
   async createUser(req, res) {
     try {
-      const user = await User.create(req.body);
+      const user = await Users.create(req.body);
       res.json(user);
     } catch (err) {
       res.status(500).json(err);
@@ -72,7 +72,7 @@ module.exports = {
   // Delete a user and remove them from the thougths
   async deleteUser(req, res) {
     try {
-      const user = await Student.findOneAndRemove({ _id: req.params.userId });
+      const user = await Users.findOneAndRemove({ _id: req.params.userId });
 
       if (!user) {
         return res.status(404).json({ message: 'No such user exists' });
@@ -103,7 +103,7 @@ module.exports = {
     console.log(req.body);
 
     try {
-      const user = await User.findOneAndUpdate(
+      const user = await Users.findOneAndUpdate(
         { _id: req.params.userId },
         { $addToSet: { datas: req.body } },
         { runValidators: true, new: true }
@@ -123,7 +123,7 @@ module.exports = {
   // Remove personal data from a user
   async removedata(req, res) {
     try {
-      const user = await User.findOneAndUpdate(
+      const user = await Users.findOneAndUpdate(
         { _id: req.params.userId },
         { $pull: { data: { dataId: req.params.dataId } } },
         { runValidators: true, new: true }
