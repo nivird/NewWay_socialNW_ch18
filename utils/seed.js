@@ -21,7 +21,7 @@ connection.once('open', async () => {
   // Create empty array to hold the students
   const users = [];
 
-  // Loop 20 times -- add students to the students array
+  // Loop 20 times -- add users to the users array
   for (let i = 0; i < 20; i++) {
     // Get some random assignment objects using a helper function that we imported from ./data
     const datas = getRandomDatas(20);
@@ -39,10 +39,10 @@ connection.once('open', async () => {
     });
   }
 
-  // Add students to the collection and await the results
+  // Add users to the collection and await the results
   const userData = await User.create(users);
 
-  // Add courses to the collection and await the results
+  // Add thoughts to the collection and await the results
   await Thought.create({
     thoughtName: 'UCLA',
     inPerson: false,
